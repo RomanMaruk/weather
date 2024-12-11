@@ -1,0 +1,22 @@
+<div class="weather-card">
+  <div class="weather-header">
+    <h2>{{ list().name }}, {{ list().sys.country }}</h2>
+    <img [src]="getWeatherIconUrl(list().weather[0].icon)" alt="Weather icon" />
+  </div>
+  <div class="weather-main">
+    <p><strong>Temperature:</strong> {{ list().main.temp }}°C</p>
+    <p><strong>Feels Like:</strong> {{ list().main.feels_like }}°C</p>
+    <p><strong>Condition:</strong> {{ list().weather[0].description }}</p>
+    <p><strong>Humidity:</strong> {{ list().main.humidity }}%</p>
+    <p><strong>Pressure:</strong> {{ list().main.pressure }} hPa</p>
+    <p>
+      <strong>Wind:</strong> {{ list().wind.speed }} m/s, {{ list().wind.deg }}°
+    </p>
+  </div>
+  <div class="weather-footer">
+    <p>Last Updated: {{ list().dt | date : "short" }}</p>
+    <button class="remove-button" (click)="onRemoveClick(list().name)">
+      Remove
+    </button>
+  </div>
+</div>

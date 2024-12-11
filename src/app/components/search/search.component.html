@@ -1,0 +1,17 @@
+<mat-form-field class="search-input">
+  <mat-label>City</mat-label>
+  <input
+    matInput
+    aria-label="City"
+    [matAutocomplete]="auto"
+    [formControl]="city"
+  />
+  <mat-autocomplete #auto="matAutocomplete">
+    @for (city of (cities$ | async)?.list; track city) {
+    <mat-option [value]="city" (onSelectionChange)="selection($event)">
+      <span>{{ city.name }}</span> |
+      <small>Population: {{ city.weather }}</small>
+    </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>
