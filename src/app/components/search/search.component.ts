@@ -1,4 +1,5 @@
 import { AsyncPipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -8,12 +9,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {
+  Observable,
+  catchError,
   debounceTime,
   distinctUntilChanged,
   filter,
   map,
+  of,
+  shareReplay,
   switchMap,
+  tap,
 } from 'rxjs';
+import { ICity } from '../../models/weather.interfaces';
 import { ApiService } from '../../services/api.service';
 import { DashboardsService } from '../../services/dashboards.service';
 
@@ -41,19 +48,23 @@ export class SearchComponent {
 
   public selectedSity = new FormControl([]);
 
-  cities$ = this.city.valueChanges.pipe(
+  error = '';
+  cities$: Observable<ICity> = this.city.valueChanges.pipe(
+    tap(() => (this.error = '')),
     debounceTime(500),
     distinctUntilChanged(),
     map((value) => (typeof value === 'object' ? value.name : value)),
     filter((value) => !!value),
-    switchMap((value) => this.apiService.searchCities(value))
+    switchMap((value) =>
+      this.apiService.searchCities(value).pipe(
+        catchError((e: HttpErrorResponse) => {
+          this.error = e.message;
+          return of({ list: [] });
+        })
+      )
+    ),
+    shareReplay()
   );
-
-  ngOnInit() {
-    this.apiService
-      .searchCities('ivano-frankivsk')
-      .subscribe((r) => console.log(r));
-  }
 
   selection(event: MatOptionSelectionChange) {
     console.log(event.source.value);

@@ -1,7 +1,7 @@
 export interface ICity {
-  message: string;
-  cod: number;
-  count: number;
+  message?: string;
+  cod?: number;
+  count?: number;
   list: ICityList[];
 }
 

@@ -1,6 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { Component, InputSignal, inject, input } from '@angular/core';
 import { ICityList } from '../../models/weather.interfaces';
-import { DatePipe } from '@angular/common';
 import { DashboardsService } from '../../services/dashboards.service';
 
 @Component({

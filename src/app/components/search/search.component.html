@@ -12,6 +12,15 @@
       <span>{{ city.name }}</span> |
       <small>Population: {{ city.weather }}</small>
     </mat-option>
+    } @if (error) {
+    <mat-option>
+      {{ error }}
+    </mat-option>
+    } @else if ( (cities$ | async)?.count === 0 ) {
+    <mat-option>
+      <p>Couldn't find this one</p>
+    </mat-option>
+
     }
   </mat-autocomplete>
 </mat-form-field>

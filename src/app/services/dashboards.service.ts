@@ -17,7 +17,7 @@ export class DashboardsService {
 
   set setWeatherList(list: ICityList) {
     const lists = this.weatherLists.getValue().slice();
-    const exist = lists.indexOf(list);
+    const exist = lists.findIndex((l) => l.name === list.name);
     if (exist < 0) {
       this.weatherLists.next([...lists, list]);
       this.saveNameCity(list.name);
