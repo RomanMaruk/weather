@@ -12,7 +12,7 @@ export class DashboardsService {
   private cityNames = new BehaviorSubject<string[]>([]);
   public cityNames$ = this.cityNames.asObservable();
 
-  private weatherLists = new BehaviorSubject<ICityList[]>([]);
+  public weatherLists = new BehaviorSubject<ICityList[]>([]);
   public weatherLists$ = this.weatherLists.asObservable();
 
   set setWeatherList(list: ICityList) {

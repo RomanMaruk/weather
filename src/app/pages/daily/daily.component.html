@@ -1,0 +1,19 @@
+<div class="weather-container">
+  <h2>Weather Forecast for {{ weatherData?.city?.name }}</h2>
+  <div class="weather-cards">
+    @for (day of weatherData?.list; track $index) {
+    <div class="weather-card">
+      <h3>{{ formatDate(day.dt) }}</h3>
+      <img
+        [src]="getIconUrl(day.weather[0].icon)"
+        [alt]="day.weather[0].description"
+      />
+      <p>{{ day.weather[0].description | titlecase }}</p>
+      <p>Day Temp: {{ day.temp.day | number : "1.0-0" }}°C</p>
+      <p>Night Temp: {{ day.temp.night | number : "1.0-0" }}°C</p>
+      <p>Humidity: {{ day.humidity }}%</p>
+      <p>Rain: {{ day.rain || 0 }} mm</p>
+    </div>
+    }
+  </div>
+</div>

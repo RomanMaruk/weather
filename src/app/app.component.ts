@@ -1,20 +1,3 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import {
-  Observable,
-  concatMap,
-  from,
-  map,
-  of,
-  scan,
-  shareReplay,
-  switchMap,
-  take,
-  timer,
-} from 'rxjs';
-import { CardComponent } from './components/card/card.component';
-import { SearchComponent } from './components/search/search.component';
-import { DashboardsService } from './services/dashboards.service';
 import {
   animate,
   query,
@@ -23,12 +6,29 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import {
+  Observable,
+  concatMap,
+  from,
+  map,
+  scan,
+  shareReplay,
+  switchMap,
+  take,
+  timer,
+} from 'rxjs';
+import { CardComponent } from './components/card/card.component';
+import { SearchComponent } from './components/search/search.component';
 import { ICityList } from './models/weather.interfaces';
+import { DashboardsService } from './services/dashboards.service';
+import { DailyComponent } from './pages/daily/daily.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [SearchComponent, CardComponent, AsyncPipe],
+  imports: [SearchComponent, CardComponent, AsyncPipe, DailyComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   animations: [
