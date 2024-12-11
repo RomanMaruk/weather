@@ -10,7 +10,6 @@
     @for (city of (cities$ | async)?.list; track city) {
     <mat-option [value]="city" (onSelectionChange)="selection($event)">
       <span>{{ city.name }}</span> |
-      <small>Population: {{ city.weather }}</small>
     </mat-option>
     } @if (error) {
     <mat-option>

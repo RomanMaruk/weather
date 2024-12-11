@@ -1,0 +1,7 @@
+<app-search />
+
+<div class="wrap" [@cardAnimation]="cityLists$ | async">
+  @for (city of (cityLists$ | async); track $index) {
+  <app-card [cityList]="city" />
+  }
+</div>

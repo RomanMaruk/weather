@@ -1,7 +1,7 @@
-<div class="weather-card">
+<div class="weather-card" (click)="navigate()">
   <div class="weather-header">
     <h2>{{ list().name }}, {{ list().sys.country }}</h2>
-    <img [src]="getWeatherIconUrl(list().weather[0].icon)" alt="Weather icon" />
+    <img [src]="list().weather[0].icon | getIcon" alt="Weather icon" />
   </div>
   <div class="weather-main">
     <p><strong>Temperature:</strong> {{ list().main.temp }}°C</p>
@@ -15,7 +15,7 @@
   </div>
   <div class="weather-footer">
     <p>Last Updated: {{ list().dt | date : "short" }}</p>
-    <button class="remove-button" (click)="onRemoveClick(list().name)">
+    <button class="remove-button" (click)="onRemoveClick($event, list().name)">
       Remove
     </button>
   </div>

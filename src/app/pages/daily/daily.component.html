@@ -1,11 +1,11 @@
 <div class="weather-container">
-  <h2>Weather Forecast for {{ weatherData?.city?.name }}</h2>
+  <h2>Weather Forecast for {{ nameCity$ | async }}</h2>
   <div class="weather-cards">
-    @for (day of weatherData?.list; track $index) {
+    @for (day of (weatherData$ | async)?.list; track $index) {
     <div class="weather-card">
-      <h3>{{ formatDate(day.dt) }}</h3>
+      <h3>{{ day.dt | formatDate }}</h3>
       <img
-        [src]="getIconUrl(day.weather[0].icon)"
+        [src]="day.weather[0].icon | getIcon"
         [alt]="day.weather[0].description"
       />
       <p>{{ day.weather[0].description | titlecase }}</p>
