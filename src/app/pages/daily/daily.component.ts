@@ -6,6 +6,7 @@ import { FormatDatePipe } from '../../pipes/format-date.pipe';
 import { ApiService } from '../../services/api.service';
 import { GetIconPipe } from '../../pipes/get-icon.pipe';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { IDailyResponse } from '../../models/weather.interfaces';
 
 @Component({
   selector: 'app-daily',
@@ -29,12 +30,13 @@ export class DailyComponent {
 
   public nameCity$ = this.activateRouter.params.pipe(map((p) => p['id']));
 
-  public weatherData$: Observable<any> = this.activateRouter.queryParams.pipe(
-    tap(() => (this.loading = true)),
-    switchMap(({ lat, lon }) => {
-      return this.apiService
-        .dayly({ lat, lon })
-        .pipe(finalize(() => (this.loading = false)));
-    })
-  );
+  public weatherData$: Observable<IDailyResponse> =
+    this.activateRouter.queryParams.pipe(
+      tap(() => (this.loading = true)),
+      switchMap(({ lat, lon }) => {
+        return this.apiService
+          .dayly({ lat, lon })
+          .pipe(finalize(() => (this.loading = false)));
+      })
+    );
 }

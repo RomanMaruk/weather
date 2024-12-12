@@ -45,12 +45,63 @@ export interface ICityList {
     // all: 100;
     all: number;
   };
-  weather: [
-    {
-      id: number;
-      main: string;
-      description: string;
-      icon: string;
-    }
-  ];
+  weather: IWeather[];
+}
+
+//
+export interface IDailyResponse {
+  city: ICityInformation;
+  cod: string;
+  message: number;
+  cnt: number;
+  list: IWeatherData[];
+}
+
+export interface ICityInformation {
+  id: number;
+  name: string;
+  coord: ICoordinate;
+  country: string;
+  population: number;
+  timezone: number;
+}
+
+export interface IWeatherData {
+  dt: number;
+  sunrise: number;
+  sunset: number;
+  temp: ITemperature;
+  feels_like: IFeelsLike;
+  pressure: number;
+  humidity: number;
+  weather: IWeather[];
+  speed: number;
+  deg: number;
+  gust: number;
+  clouds: number;
+  pop: number;
+  rain?: number; // Optional since it is not always present
+}
+
+export interface ITemperature {
+  day: number;
+  min: number;
+  max: number;
+  night: number;
+  eve: number;
+  morn: number;
+}
+
+export interface IFeelsLike {
+  day: number;
+  night: number;
+  eve: number;
+  morn: number;
+}
+
+export interface IWeather {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
 }

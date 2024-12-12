@@ -17,7 +17,7 @@ export class CardComponent {
   dashboard = inject(DashboardsService);
   router = inject(Router);
 
-  getWeatherIconUrl(icon: any): string {
+  getWeatherIconUrl(icon: string): string {
     return `http://openweathermap.org/img/wn/${icon}.png`;
   }
 
