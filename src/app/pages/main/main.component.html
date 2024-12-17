@@ -1,7 +1,12 @@
 <app-search />
 
-<div class="wrap" [@cardAnimation]="cityLists$ | async">
-  @for (city of (cityLists$ | async); track $index) {
-  <app-card [cityList]="city" />
+<div class="container" *appLoading="loading">
+  <div class="wrap" [@cardAnimation]="cityLists$ | async">
+    @for (city of (cityLists$ | async); track $index) {
+    <app-card [cityList]="city" />
+    }
+  </div>
+  @if(error) {
+  <p>{{ error.message }}</p>
   }
 </div>

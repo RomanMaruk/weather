@@ -10,24 +10,29 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   Observable,
+  catchError,
   concatMap,
   from,
   map,
+  of,
   scan,
   shareReplay,
   switchMap,
   take,
+  tap,
+  throwError,
   timer,
 } from 'rxjs';
 import { CardComponent } from '../../components/card/card.component';
 import { SearchComponent } from '../../components/search/search.component';
-import { DashboardsService } from '../../services/dashboards.service';
+import { LoadingDirective } from '../../directives/loading.directive';
 import { ICityList } from '../../models/weather.interfaces';
+import { DashboardsService } from '../../services/dashboards.service';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [SearchComponent, CardComponent, AsyncPipe],
+  imports: [SearchComponent, CardComponent, AsyncPipe, LoadingDirective],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
   animations: [
@@ -52,6 +57,8 @@ import { ICityList } from '../../models/weather.interfaces';
 })
 export class MainComponent {
   dashboard = inject(DashboardsService);
+  loading = true;
+  error: { message: string } | null = null;
   cityLists$: Observable<ICityList[]> = this.dashboard.weatherLists$.pipe(
     switchMap((cities: ICityList[]) =>
       from(cities).pipe(
@@ -60,13 +67,21 @@ export class MainComponent {
         scan((acc: ICityList[], city) => [...acc, city], []) // Accumulate cities into an array
       )
     ),
+    tap(() => (this.loading = false)),
     shareReplay() // Replay the accumulated array to all subscribers
   );
 
   ngOnInit() {
     this.dashboard.getListsByNames().forEach((list) => {
       list
-        .pipe(take(1))
+        .pipe(
+          take(1),
+          catchError((e: { message: string }) => {
+            this.loading = false;
+            this.error = e;
+            return throwError(e);
+          })
+        )
         .subscribe((list) => (this.dashboard.setWeatherList = list.list[0]));
     });
   }
