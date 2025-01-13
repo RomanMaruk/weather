@@ -7,7 +7,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import {ChangeDetectorRef, Component, inject} from '@angular/core';
 import {
   Observable,
   catchError,
@@ -57,11 +57,13 @@ import { DashboardsService } from '../../services/dashboards.service';
 })
 export class MainComponent {
   dashboard = inject(DashboardsService);
-  loading = true;
+  cdr = inject(ChangeDetectorRef)
+  // loading = true;
+  loading = this.dashboard.getNamesCities().length > 0;
   error: { message: string } | null = null;
   cityLists$: Observable<ICityList[]> = this.dashboard.weatherLists$.pipe(
     switchMap((cities: ICityList[]) =>
-      from(cities).pipe(
+     from(cities).pipe(
         // Convert the array into an observable stream of cities
         concatMap((city) => timer(200).pipe(map(() => city))), // Emit one city every 200ms
         scan((acc: ICityList[], city) => [...acc, city], []) // Accumulate cities into an array

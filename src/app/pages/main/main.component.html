@@ -1,3 +1,4 @@
+
 <app-search />
 
 <div class="container" *appLoading="loading">
@@ -8,5 +9,8 @@
   </div>
   @if(error) {
   <p>{{ error.message }}</p>
+  }
+  @if (!(cityLists$ | async)?.length && !loading) {
+  <p>Enter name of city</p>
   }
 </div>

@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { ICity, ICityList } from '../models/weather.interfaces';
-import { ApiService } from './api.service';
+import {inject, Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {ICity, ICityList} from '../models/weather.interfaces';
+import {ApiService} from './api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -52,8 +52,7 @@ export class DashboardsService {
   getListsByNames(): Observable<ICity>[] {
     const cities = this.getNamesCities();
     if (cities.length) {
-      const requests = cities.map((name) => this.apiService.searchCities(name));
-      return requests;
+      return cities.map((name) => this.apiService.searchCities(name));
     } else {
       return [];
     }
